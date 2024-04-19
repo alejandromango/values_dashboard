@@ -31,7 +31,7 @@ const state = {
       function update(new_data, data_key, cat_key) {
         //update the scales
         xscale.domain([0, 2]);
-        yscale.domain(new_data.map((d) => d[cat_key]));
+        yscale.domain(new_data.map((d) => d.old[cat_key]));
         //render the axis
         g_xaxis.transition().call(xaxis);
         g_yaxis.transition().call(yaxis);
@@ -39,14 +39,17 @@ const state = {
         // Render the chart with new data
 
         // DATA JOIN use the key argument for ensurign that the same DOM element is bound to the same data-item
-        const rect = g
-          .selectAll("rect")
-          .data(new_data, (d) => d[cat_key])
+        const rect_old = g
+          .selectAll(".rect_old")
+          .data(new_data, (d) => d.old[cat_key])
           .join(
             // ENTER
             // new elements
             (enter) => {
-              const rect_enter = enter.append("rect").attr("x", 0);
+              const rect_enter = enter.append("rect").attr("x", 0)
+                .attr('class', 'rect_old')
+                .attr("fill", "grey")
+                .attr("fill-opacity", 0.5);
               rect_enter.append("title");
               return rect_enter;
             },
@@ -58,29 +61,44 @@ const state = {
             (exit) => exit.remove()
           );
 
+        // DATA JOIN use the key argument for ensurign that the same DOM element is bound to the same data-item
+        const rect_new = g
+            .selectAll(".rect_new")
+            .data(new_data, (d) => d.new[cat_key])
+            .join(
+            // ENTER
+            // new elements
+            (enter) => {
+                const rect_enter = enter.append("rect").attr("x", 0)
+                .attr('class', 'rect_new')
+                .attr("fill", "steelblue")
+                .attr("fill-opacity", 0.8);
+                rect_enter.append("title");
+                return rect_enter;
+            },
+            // UPDATE
+            // update existing elements
+            (update) => update,
+            // EXIT
+            // elements that aren't associated with data
+            (exit) => exit.remove()
+            );
+
         // ENTER + UPDATE
         // both old and new elements
-        rect
+        rect_old
           .transition()
           .attr("height", yscale.bandwidth())
-          .attr("width", (d) => xscale(d[data_key]))
-          .attr("y", (d) => yscale(d[cat_key]))
-          .attr("fill", function(d){
-            if (d.Year === 2018) {
-                return "grey";
-            } else {
-                return "steelblue";
-            }
-          })
-          .attr("fill-opacity", function(d){
-            if (d.Year === 2018) {
-                return 0.9;
-            } else {
-                return 0.5;
-            }
-          });
+          .attr("width", (d) => xscale(d.old[data_key]))
+          .attr("y", (d) => yscale(d.old[cat_key]));
 
-        rect.select("title").text((d) => d.Year);
+        rect_new
+          .transition()
+          .attr("height", yscale.bandwidth())
+          .attr("width", (d) => xscale(d.new[data_key]))
+          .attr("y", (d) => yscale(d.new[cat_key]));
+
+        // rect.select("title").text((d) => d.Year);
       }
 
       return update;
@@ -117,7 +135,7 @@ const state = {
     const yaxis = d3.axisLeft().scale(yscale);
     const g_yaxis = g.append("g").attr("class", "y axis");
 
-    function update(oldData, newData){
+    function update(new_data, cat_key){
         //update the scales
         xscale.domain([-1, 2]);
         yscale.domain([-1, 2]);
@@ -125,20 +143,48 @@ const state = {
         g_xaxis.transition().call(xaxis);
         g_yaxis.transition().call(yaxis);
 
-        const combinedData = {"old": oldData,
-                "new": newData}
-        // Append the dots.
-        console.log(combinedData.new);
-        // console.log(combinedData.old);
-        // const dot = svg.append("g")
-        //     .attr("fill", "none")
-        //     .attr("stroke", "steelblue")
-        //     .attr("stroke-width", 1.5)
-        //     .selectAll("circle")
-        //     .data(combinedData)
-        //     .join("circle")
-        //     .attr("transform", d => `translate(${x(d.old["tos_mean"])},${y(d.new["tos_mean"])})`)
-        //     .attr("r", 3);
+        const circle = g
+            .selectAll("circle")
+            .data(new_data, (d) => d[0]["Department"])
+            .join(
+            // ENTER
+            // new elements
+            (enter) => {
+                const circle_enter = enter.append("circle");
+                circle_enter.append("title");
+                return circle_enter;
+            },
+            // UPDATE
+            // update existing elements
+            (update) => update,
+            // EXIT
+            // elements that aren't associated with data
+            (exit) => exit.remove()
+            );
+
+        // ENTER + UPDATE
+        // both old and new elements
+        circle
+            .transition()
+            .attr("r", 10)
+            .attr("cx", (d) => xscale(d[0][cat_key]))
+            .attr("cy", (d) => yscale(d[1][cat_key]));
+            // .attr("fill", function(d){
+            // if (d.Year === 2018) {
+            //     return "grey";
+            // } else {
+            //     return "steelblue";
+            // }
+            // })
+            // .attr("fill-opacity", function(d){
+            // if (d.Year === 2018) {
+            //     return 0.9;
+            // } else {
+            //     return 0.5;
+            // }
+            // });
+
+        // circle.select("title").text((d) => d.Year);
     }
     return update;
   }
@@ -151,7 +197,7 @@ const state = {
 
   function filterData() {
     return state.data.filter((d) => {
-      if (state.college && d.College !== state.college) {
+      if (state.college && d.old.College !== state.college) {
         return false;
       }
       return true;
@@ -160,20 +206,10 @@ const state = {
 
   function updateApp() {
     const filtered = filterData();
-    console.log(filtered)
     tosBar(filtered, "tos_mean", "Department")
     losBar(filtered, "los_mean", "Department")
     cpagBar(filtered, "cpag_mean", "Department")
-    totalScatter(filtered.filter((d) => {
-                    if (d.Year === 2018) {
-                    return true;
-                    }
-                    return false;}),
-                filtered.filter((d) => {
-                    if (d.Year === 2023) {
-                    return true;
-                    }
-                    return false;}));
+    totalScatter(filtered, "tos_mean");
   }
 
   d3.csv("values_comparison.csv").then((parsed) => {
@@ -184,7 +220,18 @@ const state = {
       row.cpag_mean = parseFloat(row.cpag_mean);
       return row;
     });
+    state.data = state.data.map((row) => {
+        if (row.Year === 2018) {
+            return {"old": row,
+                    "new": state.data.filter(function (d) {
+                        if ((d.Department === row.Department) & (d.Year === 2023)) {
+                            return true;
+                            }
+                        return false;})[0]};
+        }
+    });
 
+    state.data = state.data.filter((d) => d!==undefined)
     updateApp();
   });
 

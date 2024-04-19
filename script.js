@@ -4,9 +4,9 @@ const state = {
   };
 
   function createBarChart(svgSelector) {
-    const margin = { top: 40, bottom: 10, left: 300, right: 20 };
-      const width = 800 - margin.left - margin.right;
-      const height = 600 - margin.top - margin.bottom;
+    const margin = { top: 40, bottom: 40, left: 300, right: 20 };
+      const width = 920 - margin.left - margin.right;
+      const height = 680 - margin.top - margin.bottom;
 
       // Creates sources <svg> element
       const svg = d3
@@ -17,16 +17,14 @@ const state = {
       // Group used to enforce margin
       const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Global variable for all data
-      let data;
-
       // Scales setup
       const xscale = d3.scaleLinear().range([0, width]);
       const yscale = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1);
 
       // Axis setup
-      const xaxis = d3.axisTop().scale(xscale);
-      const g_xaxis = g.append("g").attr("class", "x axis");
+      const xaxis = d3.axisBottom().scale(xscale);
+      const g_xaxis = g.append("g").attr("class", "x axis")
+      .attr("transform", `translate(0,${height})`);
       const yaxis = d3.axisLeft().scale(yscale);
       const g_yaxis = g.append("g").attr("class", "y axis");
 
@@ -89,69 +87,58 @@ const state = {
   }
 
   function createScatter(svgSelector){
-        // Specify the chart’s dimensions.
-    const width = 500;
-    const height = 300;
-    const marginTop = 20;
-    const marginRight = 30;
-    const marginBottom = 30;
-    const marginLeft = 100;
+    // Specify the chart’s dimensions.
+    const margin = { top: 40, bottom: 40, left: 300, right: 20 };
+    const width = 920 - margin.left - margin.right;
+    const height = 680 - margin.top - margin.bottom;
 
+    // Creates sources <svg> element
+    const svg = d3
+        .select(svgSelector)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    // Group used to enforce margin
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
     // Create the horizontal (x) scale, positioning N/A values on the left margin.
-    const x = d3.scaleLinear()
-        .domain([-1,2])
-        .range([marginLeft, width - marginRight])
-        .unknown(marginLeft);
+    const xscale = d3.scaleLinear()
+        .range([0, width])
+        .unknown(0);
 
     // Create the vertical (y) scale, positioning N/A values on the bottom margin.
-    const y = d3.scaleLinear()
-        .domain([-1,2])
-        .range([height - marginBottom, marginTop])
-        .unknown(height - marginBottom);
+    const yscale = d3.scaleLinear()
+        .range([height, 0])
+        .unknown(height);
 
-    // Create the SVG container.
-    const svg = d3.select(svgSelector)
-        .attr("viewBox", [0, 0, width, height])
-        .property("value", []);
-
-    // Append the axes.
-    svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(d3.axisBottom(x))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.append("text")
-            .attr("x", width - marginRight)
-            .attr("y", -4)
-            .attr("fill", "#000")
-            .attr("font-weight", "bold")
-            .attr("text-anchor", "end")
-            .text("2018 Score"));
-
-    svg.append("g")
-        .attr("transform", `translate(${marginLeft},0)`)
-        .call(d3.axisLeft(y))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.select(".tick:last-of-type text").clone()
-            .attr("x", 4)
-            .attr("text-anchor", "start")
-            .attr("font-weight", "bold")
-            .text("2023 Score"));
+    // Axis setup
+    const xaxis = d3.axisBottom().scale(xscale);
+    const g_xaxis = g.append("g").attr("class", "x axis")
+        .attr("transform", `translate(0,${height})`);
+    const yaxis = d3.axisLeft().scale(yscale);
+    const g_yaxis = g.append("g").attr("class", "y axis");
 
     function update(oldData, newData){
+        //update the scales
+        xscale.domain([-1, 2]);
+        yscale.domain([-1, 2]);
+        //render the axis
+        g_xaxis.transition().call(xaxis);
+        g_yaxis.transition().call(yaxis);
+
         const combinedData = {"old": oldData,
                 "new": newData}
         // Append the dots.
-        console.log(oldData);
-        console.log(newData);
-        const dot = svg.append("g")
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 1.5)
-            .selectAll("circle")
-            .data(combinedData)
-            .join("circle")
-            .attr("transform", d => `translate(${x(d.old["tos_mean"])},${y(d.new["tos_mean"])})`)
-            .attr("r", 3);
+        console.log(combinedData.new);
+        // console.log(combinedData.old);
+        // const dot = svg.append("g")
+        //     .attr("fill", "none")
+        //     .attr("stroke", "steelblue")
+        //     .attr("stroke-width", 1.5)
+        //     .selectAll("circle")
+        //     .data(combinedData)
+        //     .join("circle")
+        //     .attr("transform", d => `translate(${x(d.old["tos_mean"])},${y(d.new["tos_mean"])})`)
+        //     .attr("r", 3);
     }
     return update;
   }

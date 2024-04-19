@@ -1,0 +1,35 @@
+﻿Year,College,Department,tos_1,tos_2,tos_3,tos_mean,tos_sum,los_1,los_2,los_3,los_4,los_5,los_6,los_7,los_8,los_mean,los_mean,cpag_1,cpag_2,cpag_mean,cpag_sum
+2018,SBS,Anthropology,1,2,2,1.666666667,5,1,0,2,1,0,2,2,2,1.25,10,0,0,0,0
+2018,SBS,Economics,1,1,2,1.333333333,4,1,1,1,1,1,0,2,2,1.125,9,2,2,2,4
+2018,SBS,Geography and Environment,1,1,1,1,3,0,0,0,1,0,0,0,0,0.125,1,1,0,0.5,1
+2018,SBS,International Relations,1,0,1,0.666666667,2,1,2,2,1,0,0,2,1,1.125,9,0,0,0,0
+2018,SBS,Political Science ,1,0,1,0.666666667,2,0,1,0,1,2,1,0,0,0.625,5,0,0,0,0
+2018,SBS,Psychology,1,1,1,1,3,0,0,0,1,0,0,0,0,0.125,1,0,2,1,2
+2018,SBS,Sociology and Sexuality Studies,1,2,1,1.333333333,4,1,1,1,1,0,1,1,1,0.875,7,1,0,0.5,1
+2018,"Eng,PACE,Phil.",Linguistics,1,2,1,1.333333333,4,1,0,0,1,0,1,1,0,0.5,4,0,1,0.5,1
+2018,"Eng,PACE,Phil.",PACE,2,1,1,1.333333333,4,1,1,1,1,0,1,1,2,1,8,0,0,0,0
+2018,"Eng,PACE,Phil.",Philosophy,1,2,2,1.666666667,5,1,1,1,1,0,1,2,2,1.125,9,2,0,1,2
+2018,STEM,Biology,1,1,1,1,3,0,0,1,1,0,0,0,1,0.375,3,0,0,0,0
+2018,STEM,Chem and Biochem,1,1,1,1,3,0,0,1,1,0,0,0,1,0.375,3,0,0,0,0
+2018,STEM,Computer Science,1,1,1,1,3,0,0,1,1,0,0,0,1,0.375,3,0,0,0,0
+2018,STEM,Earth & Climate Science,1,1,1,1,3,0,0,1,1,0,0,0,1,0.375,3,0,0,0,0
+2018,STEM,Engineering ,2,1,1,1.333333333,4,0,0,1,1,0,0,0,1,0.375,3,1,0,0.5,1
+2018,STEM,Math,1,1,1,1,3,0,0,1,1,0,0,0,1,0.375,3,0,0,0,0
+2018,STEM,Physics,1,1,1,1,3,0,0,1,1,0,0,0,1,0.375,3,0,0,0,0
+2023,SBS,Anthropology,0,1,2,1,3,0,1,2,0,0,0,2,na,0.714285714,5,0,0,0,0
+2023,SBS,Economics,0,2,2,1.333333333,4,1,2,2,0,1,1,2,na,1.285714286,9,1,1,1,2
+2023,SBS,Geography and Environment,0,1,1,0.666666667,2,0,0,1,2,0,0,2,na,0.714285714,5,0,0,0,0
+2023,SBS,International Relations,na,na,na,na,na,na,na,na,na,na,na,na,na,,0,na,na,,0
+2023,SBS,Political Science ,0,2,2,1.333333333,4,2,2,2,0,0,2,2,na,1.428571429,10,0,0,0,0
+2023,SBS,Psychology,0,2,1,1,3,2,1,0,0,0,0,,na,0.5,3,0,1,0.5,1
+2023,SBS,Sociology and Sexuality Studies,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+2023,"Eng,PACE,Phil.",Linguistics,0,2,2,1.333333333,4,2,2,2,1,0,2,2,na,1.571428571,11,0,0,0,0
+2023,"Eng,PACE,Phil.",PACE,0,2,2,1.333333333,4,2,2,2,1,1,1,2,na,1.571428571,11,0,0,0,0
+2023,"Eng,PACE,Phil.",Philosophy,0,1,1,0.666666667,2,1,1,0,0,0,1,1,na,0.571428571,4,1,0,0.5,1
+2023,STEM,Biology,0,1,1,0.666666667,2,2,2,2,2,0,2,2,na,1.714285714,12,0,1,0.5,1
+2023,STEM,Chem and Biochem,0,2,2,1.333333333,4,2,2,2,0,0,0,2,na,1.142857143,8,0,0,0,0
+2023,STEM,Computer Science,0,2,2,1.333333333,4,2,2,2,2,0,0,2,na,1.428571429,10,1,1,1,2
+2023,STEM,Earth & Climate Science,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+2023,STEM,Engineering ,0,2,2,1.333333333,4,2,2,2,0,0,1,2,na,1.285714286,9,2,0,1,2
+2023,STEM,Math,0,2,2,1.333333333,4,2,2,2,1,0,0,2,na,1.285714286,9,0,1,0.5,1
+2023,STEM,Physics,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na

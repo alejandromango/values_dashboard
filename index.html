@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Values Data Dashboard</title>
+    <link href="./style.css" rel="stylesheet" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  </head>
+  <body>
+    <h1>Values Data Dashboard</h1>
+
+    <div>
+      <label for="college-select"><strong>College:</strong></label>
+      <select id="college-select">
+        <option value="" selected>All Colleges</option>
+        <option value="SBS">SBS</option>
+        <option value="Eng,PACE,Phil.">English, PACE, Philosophy</option>
+        <option value="STEM">STEM</option>
+      </select>
+    </div>
+
+    <main>
+      <section>
+        <h3>Type of Service Bar Chart</h3>
+        <svg id="tos-bar"></svg>
+      </section>
+      <section>
+        <h3>Level of Service Bar Chart</h3>
+        <svg id="los-bar"></svg>
+      </section>
+      <section>
+        <h3>CPAG Bar Chart</h3>
+        <svg id="cpag-bar"></svg>
+      </section>
+      <section>
+        <h3>Scatter</h3>
+        <svg id="scatter"></svg>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

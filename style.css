@@ -3,6 +3,10 @@ rect:hover {
     fill-opacity: 1;
   }
 
+circle:hover {
+    fill-opacity: 1;
+  }
+
 path {
     fill-opacity: 0.8;
   }

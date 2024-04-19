@@ -143,6 +143,14 @@ const state = {
         //render the axis
         g_xaxis.transition().call(xaxis);
         g_yaxis.transition().call(yaxis);
+        g.append("line")
+            .attr("x1", xscale(0))
+            .attr("y1", yscale(0))
+            .attr("x2", xscale(2))
+            .attr("y2", yscale(2))
+            .attr("stroke", "black")
+            .attr("stroke-width", 4);
+
 
         const circle = g
             .selectAll("circle")
@@ -151,7 +159,9 @@ const state = {
             // ENTER
             // new elements
             (enter) => {
-                const circle_enter = enter.append("circle");
+                const circle_enter = enter.append("circle")
+                .attr("fill-opacity", 0.5)
+                .attr("fill", "steelblue");
                 circle_enter.append("title");
                 return circle_enter;
             },
@@ -167,7 +177,7 @@ const state = {
         // both old and new elements
         circle
             .transition()
-            .attr("r", 10)
+            .attr("r", 20)
             .attr("cx", (d) => {
                 tos = d.old["tos_mean"];
                 los = d.old["los_mean"];
@@ -181,7 +191,7 @@ const state = {
                 mean = (tos + los + cpag)/3.0;
                 return xscale(mean)});
 
-        circle.select("title").text((d) => d.Year);
+        circle.select("title").text((d) => d.old["Department"]);
     }
     return update;
   }

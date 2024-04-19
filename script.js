@@ -1,5 +1,6 @@
 const state = {
     data: [],
+    excluded: [],
     college: "",
   };
 
@@ -137,15 +138,15 @@ const state = {
 
     function update(new_data, cat_key){
         //update the scales
-        xscale.domain([-1, 2]);
-        yscale.domain([-1, 2]);
+        xscale.domain([0, 2]);
+        yscale.domain([0, 2]);
         //render the axis
         g_xaxis.transition().call(xaxis);
         g_yaxis.transition().call(yaxis);
 
         const circle = g
             .selectAll("circle")
-            .data(new_data, (d) => d[0]["Department"])
+            .data(new_data, (d) => d.old["Department"])
             .join(
             // ENTER
             // new elements
@@ -167,24 +168,20 @@ const state = {
         circle
             .transition()
             .attr("r", 10)
-            .attr("cx", (d) => xscale(d[0][cat_key]))
-            .attr("cy", (d) => yscale(d[1][cat_key]));
-            // .attr("fill", function(d){
-            // if (d.Year === 2018) {
-            //     return "grey";
-            // } else {
-            //     return "steelblue";
-            // }
-            // })
-            // .attr("fill-opacity", function(d){
-            // if (d.Year === 2018) {
-            //     return 0.9;
-            // } else {
-            //     return 0.5;
-            // }
-            // });
+            .attr("cx", (d) => {
+                tos = d.old["tos_mean"];
+                los = d.old["los_mean"];
+                cpag = d.old["cpag_mean"];
+                mean = (tos + los + cpag)/3.0;
+                return xscale(mean)})
+            .attr("cy", (d) => {
+                tos = d.new["tos_mean"];
+                los = d.new["los_mean"];
+                cpag = d.new["cpag_mean"];
+                mean = (tos + los + cpag)/3.0;
+                return xscale(mean)});
 
-        // circle.select("title").text((d) => d.Year);
+        circle.select("title").text((d) => d.Year);
     }
     return update;
   }
@@ -232,6 +229,8 @@ const state = {
     });
 
     state.data = state.data.filter((d) => d!==undefined)
+    state.data = state.data.filter((d) => !isNaN(d.new["cpag_mean"]))
+    state.excluded = state.data.filter((d) => isNaN(d.new["cpag_mean"]))
     updateApp();
   });
 

@@ -1,4 +1,4 @@
-﻿Year,College,Department,tos_1,tos_2,tos_3,tos_mean,tos_sum,los_1,los_2,los_3,los_4,los_5,los_6,los_7,los_8,los_mean,los_mean,cpag_1,cpag_2,cpag_mean,cpag_sum
+﻿Year,College,Department,tos_1,tos_2,tos_3,tos_mean,tos_sum,los_1,los_2,los_3,los_4,los_5,los_6,los_7,los_8,los_mean,los_sum,cpag_1,cpag_2,cpag_mean,cpag_sum
 2018,SBS,Anthropology,1,2,2,1.666666667,5,1,0,2,1,0,2,2,2,1.25,10,0,0,0,0
 2018,SBS,Economics,1,1,2,1.333333333,4,1,1,1,1,1,0,2,2,1.125,9,2,2,2,4
 2018,SBS,Geography and Environment,1,1,1,1,3,0,0,0,1,0,0,0,0,0.125,1,1,0,0.5,1

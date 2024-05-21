@@ -105,6 +105,33 @@ function createBarChart(svgSelector) {
     return update;
 }
 
+function plotlyBar(data, selector, data_name, category){
+    console.log(data)
+    let trace1 = {
+        y: data.map((d)=>d.old[category]),
+        x: data.map((d)=>d.old[data_name]),
+        name: '2018',
+        type: 'bar',
+        orientation: 'h'
+    };
+
+
+    let trace2 = {
+        y: data.map((d)=>d.new[category]),
+        x: data.map((d)=>d.new[data_name]),
+        name: '2023',
+        type: 'bar',
+        orientation: 'h'
+    };
+
+    let traces = [trace1, trace2];
+    let layout = {barmode: 'group',
+                margin:{l:200},
+    };
+
+    Plotly.newPlot(selector, traces, layout);
+}
+
 function createScatter(svgSelector) {
     // Specify the chart’s dimensions.
     const margin = { top: 40, bottom: 40, left: 300, right: 20 };
@@ -221,9 +248,9 @@ function filterData() {
 
 function updateApp() {
     const filtered = filterData();
-    tosBar(filtered, "tos_mean", "Department")
-    losBar(filtered, "los_mean", "Department")
-    cpagBar(filtered, "cpag_mean", "Department")
+    plotlyBar(filtered, "tos-bar", "tos_mean", "Department")
+    plotlyBar(filtered, "los-bar", "los_mean", "Department")
+    plotlyBar(filtered, "cpag-bar", "cpag_mean", "Department")
     totalScatter(filtered, "tos_mean");
 }
 

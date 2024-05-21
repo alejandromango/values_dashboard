@@ -18,6 +18,10 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script
+      src="https://cdn.plot.ly/plotly-2.32.0.min.js"
+      charset="utf-8"
+    ></script>
+    <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
@@ -56,25 +60,24 @@
     </nav>
     <div id="main-container" data-bs-spy="scroll" data-bs-target="#navigation">
       <main class="container">
-        <section class="row" id="scatter-container">
+        <section class="row plot-container" id="scatter-container">
           <h3 class="col-12">Scatter</h3>
           <h4 class="col-12">
             Green indicates improvement since 2018, and red indicates worsening.
           </h4>
-          <svg class="col-12" id="scatter"></svg>
+          <svg class="col-12 plot" id="scatter"></svg>
         </section>
-        <section class="row" id="tos-bar-container">
+        <section class="row plot-container" id="tos-bar-container">
           <h3 class="col-12">Type of Service Bar Chart</h3>
-          <svg class="col-12" id="tos-bar"></svg>
+          <div class="col-12 plot" id="tos-bar"></div>
         </section>
-        <section class="row" id="los-bar-container">
+        <section class="row plot-container" id="los-bar-container">
           <h3 class="col-12">Level of Service Bar Chart</h3>
-          <svg class="col-12" id="los-bar"></svg>
+          <div class="col-12 plot" id="los-bar"></div>
         </section>
-        <section class="row" id="cpag-bar-container">
+        <section class="row plot-container" id="cpag-bar-container">
           <h3 class="col-12">CPAG Bar Chart</h3>
-
-          <svg class="col-12" id="cpag-bar"></svg>
+          <div class="col-12 plot" id="cpag-bar"></div>
         </section>
       </main>
 

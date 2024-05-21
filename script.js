@@ -29,28 +29,76 @@ function plotlyBar(data, selector, data_name, category){
         },
         barmode: 'group',
         margin:{l:200},
+        legend: {
+            orientation: "h",
+            yanchor: "bottom",
+            y: 1,
+            x:0.5
+        }
     };
 
     Plotly.newPlot(selector, traces, layout, {responsive: true});
 }
 
 function plotlyScatter(data, selector, data_name, category){
-    let trace = {
-        y: data.map((d)=>d.new[data_name]),
-        x: data.map((d)=>d.old[data_name]),
-        text: data.map((d)=>d.old[category]),
+    let traces = data.map((d)=>{
+       return {
+        y: [d.new["tos_mean"],d.new["los_mean"],d.new[ "cpag_mean"]],
+        x: [d.old["tos_mean"],d.old["los_mean"],d.old[ "cpag_mean"]],
+        name: d.old[category],
         type: 'scatter',
         mode: 'markers',
         type: 'scatter',
         textposition: 'top center',
-        marker: { size: 20 }
-    };
+        marker: {
+            size: 20,
+            symbol: ['circle', 'square', 'diamond']
+        } };
+    });
+
+    traces.unshift({
+        y: [-10],
+        x: [-10],
+        name: "Type of Service",
+        type: 'scatter',
+        type: 'scatter',
+        marker: {
+            size: 20,
+            color: 'black',
+            symbol: 'circle'
+        }
+    })
+    traces.unshift({
+        y: [-10],
+        x: [-10],
+        name: "Level of Service",
+        type: 'scatter',
+        type: 'scatter',
+        marker: {
+            size: 20,
+            color: 'black',
+            symbol: 'square'
+        }
+    })
+    traces.unshift({
+        y: [-10],
+        x: [-10],
+        name: "CPAG",
+        type: 'scatter',
+        type: 'scatter',
+        marker: {
+            size: 20,
+            color: 'black',
+            symbol: 'diamond'
+        }
+    })
+
     let layout = {
         xaxis: {
-          range: [0, 2]
+          range: [-0.1, 2.1]
         },
         yaxis: {
-          range: [0, 2]
+          range: [-0.1, 2.1]
         },
         legend: {
           y: 0.5,
@@ -76,7 +124,7 @@ function plotlyScatter(data, selector, data_name, category){
             }]
     };
 
-    Plotly.newPlot(selector, [trace], layout, {responsive: true});
+    Plotly.newPlot(selector, traces, layout, {responsive: true});
 }
 
 function filterData() {

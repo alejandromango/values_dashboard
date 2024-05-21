@@ -5,7 +5,6 @@ const state = {
 };
 
 function plotlyBar(data, selector, data_name, category){
-    console.log(data)
     let trace1 = {
         y: data.map((d)=>d.old[category]),
         x: data.map((d)=>d.old[data_name]),
@@ -23,114 +22,62 @@ function plotlyBar(data, selector, data_name, category){
         orientation: 'h'
     };
 
-    let traces = [trace1, trace2];
-    let layout = {barmode: 'group',
-                margin:{l:200},
+    let traces = [trace2, trace1];
+    let layout = {
+        xaxis: {
+          range: [0, 2]
+        },
+        barmode: 'group',
+        margin:{l:200},
     };
 
-    Plotly.newPlot(selector, traces, layout);
+    Plotly.newPlot(selector, traces, layout, {responsive: true});
 }
 
-function createScatter(svgSelector) {
-    // Specify the chart’s dimensions.
-    const margin = { top: 40, bottom: 40, left: 300, right: 20 };
-    const width = 920 - margin.left - margin.right;
-    const height = 680 - margin.top - margin.bottom;
+function plotlyScatter(data, selector, data_name, category){
+    let trace = {
+        y: data.map((d)=>d.new[data_name]),
+        x: data.map((d)=>d.old[data_name]),
+        text: data.map((d)=>d.old[category]),
+        type: 'scatter',
+        mode: 'markers',
+        type: 'scatter',
+        textposition: 'top center',
+        marker: { size: 20 }
+    };
+    let layout = {
+        xaxis: {
+          range: [0, 2]
+        },
+        yaxis: {
+          range: [0, 2]
+        },
+        legend: {
+          y: 0.5,
+          yref: 'paper',
+          font: {
+            family: 'Arial, sans-serif',
+            size: 20,
+            color: 'grey',
+          }
+        },
+        shapes: [
+            {
+              type: 'path',
+              path: 'M 0 0 L 0 2 L 2 2 Z',
+              fillcolor: 'rgba(44, 160, 101, 0.5)',
+              opacity: 0.2
+            },
+            {
+              type: 'path',
+              path: 'M 0 0 L 2 0 L 2 2 Z',
+              fillcolor: 'rgba(160, 44, 101, 0.5)',
+              opacity: 0.2
+            }]
+    };
 
-    // Creates sources <svg> element
-    const svg = d3
-        .select(svgSelector)
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
-
-    // Group used to enforce margin
-    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-    // Create the horizontal (x) scale, positioning N/A values on the left margin.
-    const xscale = d3.scaleLinear()
-        .range([0, width])
-        .unknown(0);
-
-    // Create the vertical (y) scale, positioning N/A values on the bottom margin.
-    const yscale = d3.scaleLinear()
-        .range([height, 0])
-        .unknown(height);
-
-    // Axis setup
-    const xaxis = d3.axisBottom().scale(xscale);
-    const g_xaxis = g.append("g").attr("class", "x axis")
-        .attr("transform", `translate(0,${height})`);
-    const yaxis = d3.axisLeft().scale(yscale);
-    const g_yaxis = g.append("g").attr("class", "y axis");
-
-    //update the scales
-    xscale.domain([0, 2]);
-    yscale.domain([0, 2]);
-    g.append("line")
-        .attr("x1", xscale(0))
-        .attr("y1", yscale(0))
-        .attr("x2", xscale(2))
-        .attr("y2", yscale(2))
-        .attr("stroke", "black")
-        .attr("stroke-width", 4);
-    g.append("polygon")
-        .attr("points", `${xscale(0)},${yscale(0)} ${xscale(2)},${yscale(0)} ${xscale(2)},${yscale(2)}`)
-        .attr("fill-opacity", 0.5)
-        .attr("fill", "pink");
-    g.append("polygon")
-        .attr("points", `${xscale(0)},${yscale(0)} ${xscale(0)},${yscale(2)} ${xscale(2)},${yscale(2)}`)
-        .attr("fill-opacity", 0.5)
-        .attr("fill", "lightgreen");
-    function update(new_data, cat_key) {
-        //render the axis
-        g_xaxis.transition().call(xaxis);
-        g_yaxis.transition().call(yaxis);
-        const circle = g
-            .selectAll("circle")
-            .data(new_data, (d) => d.old["Department"])
-            .join(
-                // ENTER
-                // new elements
-                (enter) => {
-                    const circle_enter = enter.append("circle")
-                        .attr("fill-opacity", 0.5)
-                        .attr("fill", "steelblue");
-                    circle_enter.append("title");
-                    return circle_enter;
-                },
-                // UPDATE
-                // update existing elements
-                (update) => update,
-                // EXIT
-                // elements that aren't associated with data
-                (exit) => exit.remove()
-            );
-
-        // ENTER + UPDATE
-        // both old and new elements
-        circle
-            .transition()
-            .attr("r", 20)
-            .attr("cx", (d) => {
-                tos = d.old["tos_mean"];
-                los = d.old["los_mean"];
-                cpag = d.old["cpag_mean"];
-                mean = (tos + los + cpag) / 3.0;
-                return xscale(mean)
-            })
-            .attr("cy", (d) => {
-                tos = d.new["tos_mean"];
-                los = d.new["los_mean"];
-                cpag = d.new["cpag_mean"];
-                mean = (tos + los + cpag) / 3.0;
-                return xscale(mean)
-            });
-
-        circle.select("title").text((d) => d.old["Department"]);
-    }
-    return update;
+    Plotly.newPlot(selector, [trace], layout, {responsive: true});
 }
-
-const totalScatter = createScatter("#scatter")
 
 function filterData() {
     return state.data.filter((d) => {
@@ -146,7 +93,7 @@ function updateApp() {
     plotlyBar(filtered, "tos-bar", "tos_mean", "Department")
     plotlyBar(filtered, "los-bar", "los_mean", "Department")
     plotlyBar(filtered, "cpag-bar", "cpag_mean", "Department")
-    totalScatter(filtered, "tos_mean");
+    plotlyScatter(filtered, "scatter", "tos_mean", "Department");
 }
 
 d3.csv("values_comparison.csv").then((parsed) => {

@@ -34,6 +34,11 @@ function plotlyBar(data, selector, data_name, category){
             yanchor: "bottom",
             y: 1,
             x:0.5
+        },
+        xaxis: {
+            title: {
+                text: "Average Score"
+            }
         }
     };
 
@@ -55,43 +60,6 @@ function plotlyScatter(data, selector, data_name, category){
             symbol: ['circle', 'square', 'diamond']
         } };
     });
-
-    traces.unshift({
-        y: [-10],
-        x: [-10],
-        name: "Type of Service",
-        type: 'scatter',
-        type: 'scatter',
-        marker: {
-            size: 20,
-            color: 'black',
-            symbol: 'circle'
-        }
-    })
-    traces.unshift({
-        y: [-10],
-        x: [-10],
-        name: "Level of Service",
-        type: 'scatter',
-        type: 'scatter',
-        marker: {
-            size: 20,
-            color: 'black',
-            symbol: 'square'
-        }
-    })
-    traces.unshift({
-        y: [-10],
-        x: [-10],
-        name: "CPAG",
-        type: 'scatter',
-        type: 'scatter',
-        marker: {
-            size: 20,
-            color: 'black',
-            symbol: 'diamond'
-        }
-    })
 
     let layout = {
         xaxis: {
@@ -121,7 +89,17 @@ function plotlyScatter(data, selector, data_name, category){
               path: 'M 0 0 L 2 0 L 2 2 Z',
               fillcolor: 'rgba(160, 44, 101, 0.5)',
               opacity: 0.2
-            }]
+        }],
+        xaxis: {
+            title: {
+                text: "2018 Average Score"
+            }
+        },
+        yaxis: {
+            title: {
+                text: "2023 Average Score"
+            }
+        }
     };
 
     Plotly.newPlot(selector, traces, layout, {responsive: true});

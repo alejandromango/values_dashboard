@@ -26,13 +26,21 @@
   <body>
     <nav class="navbar sticky-top" id="navigation">
       <h1>Values Data Dashboard</h1>
+      <div>
+        <label for="college-select"><strong>College:</strong></label>
+        <select id="college-select">
+          <option value="" selected>All Colleges</option>
+          <option value="SBS">SBS</option>
+          <option value="STEM">STEM</option>
+        </select>
+      </div>
       <ul class="nav nav-pills">
         <li class="nav-item">
           <a
             href="#scatter-container"
             class="nav-link active"
             aria-current="page"
-            >Home</a
+            >Overview</a
           >
         </li>
         <li class="nav-item">
@@ -47,35 +55,26 @@
       </ul>
     </nav>
     <div id="main-container" data-bs-spy="scroll" data-bs-target="#navigation">
-      <div>
-        <label for="college-select"><strong>College:</strong></label>
-        <select id="college-select">
-          <option value="" selected>All Colleges</option>
-          <option value="SBS">SBS</option>
-          <option value="STEM">STEM</option>
-        </select>
-      </div>
-
-      <main>
-        <section id="scatter-container">
-          <h3>Scatter</h3>
-          <h4>
+      <main class="container">
+        <section class="row" id="scatter-container">
+          <h3 class="col-12">Scatter</h3>
+          <h4 class="col-12">
             Green indicates improvement since 2018, and red indicates worsening.
           </h4>
-          <svg id="scatter"></svg>
+          <svg class="col-12" id="scatter"></svg>
         </section>
-        <section id="tos-bar-container">
-          <h3>Type of Service Bar Chart</h3>
-          <svg id="tos-bar"></svg>
+        <section class="row" id="tos-bar-container">
+          <h3 class="col-12">Type of Service Bar Chart</h3>
+          <svg class="col-12" id="tos-bar"></svg>
         </section>
-        <section id="los-bar-container">
-          <h3>Level of Service Bar Chart</h3>
-          <svg id="los-bar"></svg>
+        <section class="row" id="los-bar-container">
+          <h3 class="col-12">Level of Service Bar Chart</h3>
+          <svg class="col-12" id="los-bar"></svg>
         </section>
-        <section id="cpag-bar-container">
-          <h3>CPAG Bar Chart</h3>
+        <section class="row" id="cpag-bar-container">
+          <h3 class="col-12">CPAG Bar Chart</h3>
 
-          <svg id="cpag-bar"></svg>
+          <svg class="col-12" id="cpag-bar"></svg>
         </section>
       </main>
 

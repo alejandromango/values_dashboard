@@ -48,8 +48,8 @@ function plotlyBar(data, selector, data_name, category){
 function plotlyScatter(data, selector, data_name, category){
     let traces = data.map((d)=>{
        return {
-        y: [d.new["tos_mean"],d.new["los_mean"],d.new[ "cpag_mean"]],
-        x: [d.old["tos_mean"],d.old["los_mean"],d.old[ "cpag_mean"]],
+        y: [d.new["tos_mean"],d.new["los_mean"]],
+        x: [d.old["tos_mean"],d.old["los_mean"]],
         name: d.old[category],
         type: 'scatter',
         mode: 'markers',
@@ -57,7 +57,7 @@ function plotlyScatter(data, selector, data_name, category){
         textposition: 'top center',
         marker: {
             size: 20,
-            symbol: ['circle', 'square', 'diamond']
+            symbol: ['circle', 'square']
         } };
     });
 
@@ -89,7 +89,41 @@ function plotlyScatter(data, selector, data_name, category){
               path: 'M 0 0 L 2 0 L 2 2 Z',
               fillcolor: 'rgba(160, 44, 101, 0.5)',
               opacity: 0.2
-        }],
+            },
+            // {
+            //   type: 'circle',
+            //   x0: 0,
+            //   y0: 0,
+            //   x1: 20,
+            //   y1: 20,
+            //   xref: "x",
+            //   xsizemode: 'pixel',
+            //   xanchor: 0.55,
+            //   yref: 'y',
+            //   ysizemode: 'pixel',
+            //   yanchor: 2.05,
+            //   fillcolor: 'rgba(0, 0, 0)',
+            //   label: {
+            //     text: 'Price drop',
+            //     font: { size: 20, color: 'black' },
+            //     textposition: 'center',
+            //   }
+            // },
+            // {
+            //   type: 'rect',
+            //   x0: 0,
+            //   y0: 0,
+            //   x1: 20,
+            //   y1: 20,
+            //   xref: "x",
+            //   xsizemode: 'pixel',
+            //   xanchor: 1.05,
+            //   yref: 'y',
+            //   ysizemode: 'pixel',
+            //   yanchor: 2.05,
+            //   fillcolor: 'rgba(0, 0, 0)'
+            // },
+            ],
         xaxis: {
             title: {
                 text: "2018 Average Score"
@@ -116,9 +150,8 @@ function filterData() {
 
 function updateApp() {
     const filtered = filterData();
-    plotlyBar(filtered, "tos-bar", "tos_mean", "Department")
-    plotlyBar(filtered, "los-bar", "los_mean", "Department")
-    plotlyBar(filtered, "cpag-bar", "cpag_mean", "Department")
+    plotlyBar(filtered, "tos-bar", "tos_mean", "Department");
+    plotlyBar(filtered, "los-bar", "los_mean", "Department");
     plotlyScatter(filtered, "scatter", "tos_mean", "Department");
 }
 

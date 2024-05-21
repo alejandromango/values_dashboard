@@ -28,16 +28,28 @@
     ></script>
   </head>
   <body>
-    <nav class="navbar sticky-top" id="navigation">
-      <h1>Values Data Dashboard</h1>
-      <div>
-        <label for="college-select"><strong>College:</strong></label>
-        <select id="college-select">
-          <option value="" selected>All Colleges</option>
-          <option value="SBS">SBS</option>
-          <option value="STEM">STEM</option>
-        </select>
+    <div class="px-4 py-5 my-5 text-center">
+      <h1 class="display-5 fw-bold text-body-emphasis">
+        Values Initiative Dashboard
+      </h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+          This project shows results of the 2018 and 2023 evaluations of SFSU
+          departmental retention, tenure and promotion criterias' service
+          requirements. These visualizations help to answer the question of
+          whether departments' views of service have changed over time. The
+          rubric used for evaluation had two categories of question displayed
+          here: type of service and level of service. <br /><br />
+          The drop down menu allows you to filter by department type, and
+          clicking the buttons in the header will take you directly to that
+          rubric category.
+        </p>
       </div>
+    </div>
+    <nav
+      class="navbar container justify-content-center sticky-top"
+      id="navigation"
+    >
       <ul class="nav nav-pills">
         <li class="nav-item">
           <a
@@ -53,18 +65,25 @@
         <li class="nav-item">
           <a href="#los-bar-container" class="nav-link">Level of Service</a>
         </li>
-        <li class="nav-item">
-          <a href="#cpag-bar-container" class="nav-link">CPAG</a>
-        </li>
       </ul>
+      <div>
+        <label for="college-select"><strong>Department:</strong></label>
+        <select class="form-select" id="college-select">
+          <option value="" selected>All Departments</option>
+          <option value="SBS">SBS</option>
+          <option value="STEM">STEM</option>
+        </select>
+      </div>
     </nav>
     <div id="main-container" data-bs-spy="scroll" data-bs-target="#navigation">
       <main class="container">
         <section class="row plot-container" id="scatter-container">
-          <h3 class="col-12">Scatter</h3>
-          <h4 class="col-12">
-            Green indicates improvement since 2018, and red indicates decrease.
-          </h4>
+          <h3 class="col-12">Scatterplot Overview</h3>
+          <h6 class="col-12">
+            The green region indicates improvement since 2018, and red regions
+            indicates decrease. Circles are type of service and squares are
+            level of service scores.
+          </h6>
           <div class="col-12 plot" id="scatter"></div>
         </section>
         <section class="row plot-container" id="tos-bar-container">
@@ -74,10 +93,6 @@
         <section class="row plot-container" id="los-bar-container">
           <h3 class="col-12">Level of Service Bar Chart</h3>
           <div class="col-12 plot" id="los-bar"></div>
-        </section>
-        <section class="row plot-container" id="cpag-bar-container">
-          <h3 class="col-12">CPAG Bar Chart</h3>
-          <div class="col-12 plot" id="cpag-bar"></div>
         </section>
       </main>
 

@@ -4,107 +4,6 @@ const state = {
     college: "",
 };
 
-function createBarChart(svgSelector) {
-    const margin = { top: 40, bottom: 40, left: 300, right: 20 };
-    const width = 920 - margin.left - margin.right;
-    const height = 680 - margin.top - margin.bottom;
-
-    // Creates sources <svg> element
-    const svg = d3
-        .select(svgSelector)
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
-
-    // Group used to enforce margin
-    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // Scales setup
-    const xscale = d3.scaleLinear().range([0, width]);
-    const yscale = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1);
-
-    // Axis setup
-    const xaxis = d3.axisBottom().scale(xscale);
-    const g_xaxis = g.append("g").attr("class", "x axis")
-        .attr("transform", `translate(0,${height})`);
-    const yaxis = d3.axisLeft().scale(yscale);
-    const g_yaxis = g.append("g").attr("class", "y axis");
-
-    function update(new_data, data_key, cat_key) {
-        //update the scales
-        xscale.domain([0, 2]);
-        yscale.domain(new_data.map((d) => d.old[cat_key]));
-        //render the axis
-        g_xaxis.transition().call(xaxis);
-        g_yaxis.transition().call(yaxis);
-
-        // Render the chart with new data
-
-        // DATA JOIN use the key argument for ensurign that the same DOM element is bound to the same data-item
-        const rect_old = g
-            .selectAll(".rect_old")
-            .data(new_data, (d) => d.old[cat_key])
-            .join(
-                // ENTER
-                // new elements
-                (enter) => {
-                    const rect_enter = enter.append("rect").attr("x", 0)
-                        .attr('class', 'rect_old')
-                        .attr("fill", "grey")
-                        .attr("fill-opacity", 0.5);
-                    rect_enter.append("title");
-                    return rect_enter;
-                },
-                // UPDATE
-                // update existing elements
-                (update) => update,
-                // EXIT
-                // elements that aren't associated with data
-                (exit) => exit.remove()
-            );
-
-        // DATA JOIN use the key argument for ensurign that the same DOM element is bound to the same data-item
-        const rect_new = g
-            .selectAll(".rect_new")
-            .data(new_data, (d) => d.new[cat_key])
-            .join(
-                // ENTER
-                // new elements
-                (enter) => {
-                    const rect_enter = enter.append("rect").attr("x", 0)
-                        .attr('class', 'rect_new')
-                        .attr("fill", "steelblue")
-                        .attr("fill-opacity", 0.8);
-                    rect_enter.append("title");
-                    return rect_enter;
-                },
-                // UPDATE
-                // update existing elements
-                (update) => update,
-                // EXIT
-                // elements that aren't associated with data
-                (exit) => exit.remove()
-            );
-
-        // ENTER + UPDATE
-        // both old and new elements
-        rect_old
-            .transition()
-            .attr("height", yscale.bandwidth())
-            .attr("width", (d) => xscale(d.old[data_key]))
-            .attr("y", (d) => yscale(d.old[cat_key]));
-
-        rect_new
-            .transition()
-            .attr("height", yscale.bandwidth())
-            .attr("width", (d) => xscale(d.new[data_key]))
-            .attr("y", (d) => yscale(d.new[cat_key]));
-
-        // rect.select("title").text((d) => d.Year);
-    }
-
-    return update;
-}
-
 function plotlyBar(data, selector, data_name, category){
     console.log(data)
     let trace1 = {
@@ -231,10 +130,6 @@ function createScatter(svgSelector) {
     return update;
 }
 
-/////////////////////////
-const tosBar = createBarChart("#tos-bar")
-const losBar = createBarChart("#los-bar")
-const cpagBar = createBarChart("#cpag-bar")
 const totalScatter = createScatter("#scatter")
 
 function filterData() {

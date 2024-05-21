@@ -19,3 +19,16 @@ path:hover {
   .axis {
     font-size: large;
   }
+
+  html{
+    font-family: Helvetica, sans-serif;
+  }
+
+.sticky-top {
+    background-color: white;
+}
+
+#main-container {
+    height: 90vh;
+    overflow-y: scroll;
+}

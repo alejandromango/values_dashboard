@@ -3,6 +3,7 @@ const state = {
     wc: [],
     excluded: [],
     college: "",
+    departments: []
 };
 
 function plotlyBar(data, selector, data_name, category){
@@ -160,16 +161,42 @@ function plotlyScatter(data, selector, data_name, category){
 }
 
 function filterData() {
-    return state.data.filter((d) => {
+    let inter = state.data.filter((d) => {
         if (state.college && d.old.College !== state.college) {
             return false;
         }
         return true;
     });
+
+    return inter.filter((d) => {
+        if (state.departments.includes(d.old.Department)) {
+            return true;
+        }
+        return false;
+    });
+}
+
+function assignOptions(options, selectors){
+    for (i=0;i<selectors.length;i++) {
+        d3.select(selectors[i])
+            .selectAll("option")
+            .data(options)
+            .enter()
+            .append("option")
+            .attr("value",(d)=>d)
+            .text((d)=>d);
+    };
+}
+
+function setupCharts(){
+    var departments = Array.from(new Set(state.data.map((d)=>d.new["Department"])));
+    state.departments = departments;
+    assignOptions(departments, ["#department-select"]);
 }
 
 function updateApp() {
     const filtered = filterData();
+    setupCharts()
     plotlyBar(filtered, "tos-bar", "tos_mean", "Department");
     plotlyBar(filtered, "los-bar", "los_mean", "Department");
     middleBar(state.wc, "service-bar", "difference", "Department");
@@ -219,5 +246,15 @@ d3.csv("sbs_service_word_counts.csv").then((parsed) => {
 d3.select("#college-select").on("change", function () {
     const selected = d3.select(this).property("value");
     state.college = selected;
+    updateApp();
+});
+
+
+d3.select("#department-select").on("change", function () {
+    let values =[];
+    const selected = d3.select(this) // select the select
+    .selectAll("option:checked")  // select the selected values
+    .each(function() { values.push(this.value) });
+    state.departments = values;
     updateApp();
 });

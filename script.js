@@ -1,5 +1,6 @@
 const state = {
     data: [],
+    wc: [],
     excluded: [],
     college: "",
 };
@@ -38,6 +39,34 @@ function plotlyBar(data, selector, data_name, category){
         xaxis: {
             title: {
                 text: "Average Score"
+            }
+        }
+    };
+
+    Plotly.newPlot(selector, traces, layout, {responsive: true});
+}
+
+
+function middleBar(data, selector, data_name, category){
+    let trace1 = {
+        x: data.map((d)=>d[category]),
+        y: data.map((d)=>d[data_name]),
+        type: 'bar'
+    };
+
+    let traces = [trace1];
+    let layout = {
+        barmode: 'group',
+        // margin:{b:200},
+        legend: {
+            orientation: "h",
+            yanchor: "bottom",
+            y: 1,
+            x:0.5
+        },
+        yaxis: {
+            title: {
+                text: "Word Count Difference"
             }
         }
     };
@@ -143,6 +172,7 @@ function updateApp() {
     const filtered = filterData();
     plotlyBar(filtered, "tos-bar", "tos_mean", "Department");
     plotlyBar(filtered, "los-bar", "los_mean", "Department");
+    middleBar(state.wc, "service-bar", "difference", "Department");
     plotlyScatter(filtered, "scatter", "tos_mean", "Department");
 }
 
@@ -171,6 +201,17 @@ d3.csv("values_comparison.csv").then((parsed) => {
     state.data = state.data.filter((d) => d !== undefined)
     state.data = state.data.filter((d) => !isNaN(d.new["cpag_mean"]))
     state.excluded = state.data.filter((d) => isNaN(d.new["cpag_mean"]))
+    updateApp();
+});
+
+d3.csv("sbs_service_word_counts.csv").then((parsed) => {
+    state.wc = parsed.map((row) => {
+        row["2023wc"] = parseInt(row["2023wc"], 10);
+        row["2018wc"] = parseInt(row["2018wc"], 10);
+        row["difference"] = parseInt(row["difference"], 10);
+        return row;
+    });
+
     updateApp();
 });
 

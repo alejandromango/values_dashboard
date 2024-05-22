@@ -63,10 +63,18 @@ function plotlyScatter(data, selector, data_name, category){
 
     let layout = {
         xaxis: {
-          range: [-0.1, 2.1]
+          range: [-0.1, 2.1],
+          fixedrange: true,
+          title: {
+              text: "2018 Average Score"
+          }
         },
         yaxis: {
-          range: [-0.1, 2.1]
+          range: [-0.1, 2.1],
+          fixedrange: true,
+          title: {
+              text: "2023 Average Score"
+          }
         },
         legend: {
           y: 0.5,
@@ -79,61 +87,44 @@ function plotlyScatter(data, selector, data_name, category){
         },
         shapes: [
             {
-              type: 'path',
-              path: 'M 0 0 L 0 2 L 2 2 Z',
-              fillcolor: 'rgba(44, 160, 101, 0.5)',
-              opacity: 0.2
+                type: 'line',
+                x0: 0,
+                y0: 0,
+                x1: 2,
+                y1: 2,
+                line: {
+                    color: 'rgb(0, 0, 0)',
+                    width: 4,
+                    dash: 'dashdot'
+
+                },
+                label: {
+                    text: 'Score Increase',
+                    font: { size: 20, color: 'black' },
+                    textposition: 'end',
+                    yanchor: 'bottom'
+                }
             },
             {
-              type: 'path',
-              path: 'M 0 0 L 2 0 L 2 2 Z',
-              fillcolor: 'rgba(160, 44, 101, 0.5)',
-              opacity: 0.2
-            },
-            // {
-            //   type: 'circle',
-            //   x0: 0,
-            //   y0: 0,
-            //   x1: 20,
-            //   y1: 20,
-            //   xref: "x",
-            //   xsizemode: 'pixel',
-            //   xanchor: 0.55,
-            //   yref: 'y',
-            //   ysizemode: 'pixel',
-            //   yanchor: 2.05,
-            //   fillcolor: 'rgba(0, 0, 0)',
-            //   label: {
-            //     text: 'Price drop',
-            //     font: { size: 20, color: 'black' },
-            //     textposition: 'center',
-            //   }
-            // },
-            // {
-            //   type: 'rect',
-            //   x0: 0,
-            //   y0: 0,
-            //   x1: 20,
-            //   y1: 20,
-            //   xref: "x",
-            //   xsizemode: 'pixel',
-            //   xanchor: 1.05,
-            //   yref: 'y',
-            //   ysizemode: 'pixel',
-            //   yanchor: 2.05,
-            //   fillcolor: 'rgba(0, 0, 0)'
-            // },
-            ],
-        xaxis: {
-            title: {
-                text: "2018 Average Score"
+                type: 'line',
+                x0: 0,
+                y0: 0,
+                x1: 2,
+                y1: 2,
+                line: {
+                    color: 'rgb(0, 0, 0)',
+                    width: 4,
+                    dash: 'dashdot'
+
+                },
+                label: {
+                    text: 'Score Decrease',
+                    font: { size: 20, color: 'black' },
+                    textposition: 'end',
+                    yanchor: 'top'
+                }
             }
-        },
-        yaxis: {
-            title: {
-                text: "2023 Average Score"
-            }
-        }
+            ]
     };
 
     Plotly.newPlot(selector, traces, layout, {responsive: true});

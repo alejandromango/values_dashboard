@@ -57,7 +57,7 @@ function middleBar(data, selector, data_name, category){
     let traces = [trace1];
     let layout = {
         barmode: 'group',
-        // margin:{b:200},
+        margin:{b:150},
         legend: {
             orientation: "h",
             yanchor: "bottom",

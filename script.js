@@ -67,7 +67,7 @@ function middleBar(data, selector, data_name, category){
         },
         yaxis: {
             title: {
-                text: "Word Count Difference"
+                text: "Difference in Ratios"
             }
         }
     };
@@ -199,7 +199,7 @@ function updateApp() {
     setupCharts()
     plotlyBar(filtered, "tos-bar", "tos_mean", "Department");
     plotlyBar(filtered, "los-bar", "los_mean", "Department");
-    middleBar(state.wc, "service-bar", "difference", "Department");
+    middleBar(state.wc, "service-bar", "change in service wc ratios over time", "Department");
     plotlyScatter(filtered, "scatter", "tos_mean", "Department");
 }
 
@@ -233,9 +233,9 @@ d3.csv("values_comparison.csv").then((parsed) => {
 
 d3.csv("sbs_service_word_counts.csv").then((parsed) => {
     state.wc = parsed.map((row) => {
-        row["2023wc"] = parseInt(row["2023wc"], 10);
-        row["2018wc"] = parseInt(row["2018wc"], 10);
-        row["difference"] = parseInt(row["difference"], 10);
+        row["change in service wc ratios over time"] = parseFloat(row["change in service wc ratios over time"], 10);
+        row["2018wc"] = parseFloat(row["2018wc"], 10);
+        row["difference"] = parseFloat(row["difference"], 10);
         return row;
     });
 
